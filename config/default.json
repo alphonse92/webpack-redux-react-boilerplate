@@ -1,0 +1,18 @@
+{
+  "web": {
+    "port": 4200,
+    "base": "http://localhost",
+    "paths": {
+      "html": "./src/**.html",
+      "js": "./src/**/*.js",
+      "css": "./src/**/*.css",
+      "sass": "./src/**/*.sass",
+      "dist": "./dist",
+      "main": "./src/index.js",
+      "css_modules": [
+        "node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "node_modules/bootstrap/dist/css/bootstrap-theme.min.css"
+      ]
+    }
+  }
+}
