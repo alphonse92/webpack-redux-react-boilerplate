@@ -5,6 +5,8 @@ import { Router } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory'
 import App from './modules/app';
 import PropTypes from 'prop-types';
+
+
 const browserHistory = createBrowserHistory();
 
 class Bootstrap extends React.Component {

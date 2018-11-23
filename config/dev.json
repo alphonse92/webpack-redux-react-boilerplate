@@ -9,10 +9,7 @@
       "sass": "./src/**/*.sass",
       "dist": "./dist",
       "main": "./src/index.js",
-      "css_modules": [
-        "node_modules/bootstrap/dist/css/bootstrap.min.css",
-        "node_modules/bootstrap/dist/css/bootstrap-theme.min.css"
-      ]
+      "css_modules": []
     }
   }
 }

@@ -4,7 +4,9 @@ import { render } from 'react-dom';
 import Bootstrap from './bootstrap';
 import RoutesBootstrap from './routes';
 
-// import './styles/styles.css'; //Webpack can import CSS files too!
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+// import global styles
+import globalcss from './styles.global.css';
+import styles from './styles.global.sass'
+import styles2 from './styles.global.scss'
 
 render(<Bootstrap routes={RoutesBootstrap}></Bootstrap>, document.getElementById('app'));

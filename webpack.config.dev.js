@@ -1,5 +1,18 @@
 import webpack from 'webpack';
 import path from 'path';
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+
+const regex = {
+
+  css_no_global: /^((?!\.global).)*\.css$/,
+  css_global: /(\.global\.css$)/,
+
+  sass_no_global: /^((?!\.global).)*\.(sass|scss)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+  sass_global: /(\.global\.(sass|scss)(\?v=[0-9]\.[0-9]\.[0-9])?$)/,
+  
+  js: /\.js$/,
+  files: /\.(png|woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/
+}
 
 export default {
   devtool: 'inline-source-map',
@@ -19,13 +32,52 @@ export default {
     contentBase: path.resolve(__dirname, 'src')
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "styles.css",
+      chunkFilename: "[id].css"
+    })
   ],
   module: {
     rules: [
-      { test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel-loader'] },
-      { test: /(\.css)$/, loaders: ['style-loader', 'css-loader'] },
-      { test: /\.(png|woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url' }
+      // bundle javascript files
+      { test: regex.js, include: path.join(__dirname, 'src'), loaders: ['babel-loader'] },
+      // prepare to sass or scss
+      {
+        test: regex.sass_no_global,
+        use: [
+
+          { loader: MiniCssExtractPlugin.loader, options: { publicPath: '/' } },
+          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+          { loader: 'sass-loader', options: { sourceMap: true } }
+        ],
+      },
+      {
+        test: regex.sass_global,
+        use: [
+
+          { loader: MiniCssExtractPlugin.loader, options: { publicPath: '/' } },
+          'css-loader',
+          { loader: 'sass-loader', options: { sourceMap: true } }
+        ],
+      },
+      // bundle css files
+      {
+        test: regex.css_global,
+        use: [
+          { loader: MiniCssExtractPlugin.loader, options: { publicPath: '/' } },
+          'css-loader'
+        ]
+      },
+      {
+        test: regex.css_no_global,
+        use: [
+          { loader: MiniCssExtractPlugin.loader, options: { publicPath: '/' } },
+          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+        ]
+      },
+      // handle files
+      { test: regex.files, loader: 'url-loader' }
     ]
   }
 };
