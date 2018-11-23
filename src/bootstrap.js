@@ -4,6 +4,7 @@ import React from 'react';
 import { Router } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory'
 import App from './modules/app';
+import PropTypes from 'prop-types';
 const browserHistory = createBrowserHistory();
 
 class Bootstrap extends React.Component {
@@ -24,6 +25,8 @@ class Bootstrap extends React.Component {
   }
 }
 
-
+Bootstrap.propTypes = {
+  routes: PropTypes.array.isRequired
+}
 
 export default Bootstrap;
