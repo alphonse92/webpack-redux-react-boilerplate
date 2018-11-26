@@ -8,9 +8,10 @@ class Modal extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {/* <link rel="stylesheet" href="/modal-component.css"></link> */}
+        <link rel="stylesheet" href="/modal-component.css"></link>
         <p className={style.hola}>red</p>
         <p className={sass.hola2}>blue</p>
+        {this.props.children}
       </React.Fragment >
     );
   }

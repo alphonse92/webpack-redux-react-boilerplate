@@ -35,7 +35,7 @@ export default {
     new webpack.HotModuleReplacementPlugin(),
     new MiniCssExtractPlugin({
       filename: "styles.css",
-      chunkFilename: "[id].css"
+      chunkFilename: "[name].css"
     })
   ],
   module: {
