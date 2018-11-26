@@ -9,7 +9,7 @@ const regex = {
 
   sass_no_global: /^((?!\.global).)*\.(sass|scss)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
   sass_global: /(\.global\.(sass|scss)(\?v=[0-9]\.[0-9]\.[0-9])?$)/,
-  
+
   js: /\.js$/,
   files: /\.(png|woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/
 }
@@ -40,17 +40,13 @@ export default {
   ],
   module: {
     rules: [
-      // bundle javascript files
       { test: regex.js, include: path.join(__dirname, 'src'), loaders: ['babel-loader'] },
-      // prepare to sass or scss
       {
-        test: regex.sass_no_global,
+        test: regex.css_global,
         use: [
-
           { loader: MiniCssExtractPlugin.loader, options: { publicPath: '/' } },
-          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-          { loader: 'sass-loader', options: { sourceMap: true } }
-        ],
+          'css-loader'
+        ]
       },
       {
         test: regex.sass_global,
@@ -61,14 +57,6 @@ export default {
           { loader: 'sass-loader', options: { sourceMap: true } }
         ],
       },
-      // bundle css files
-      {
-        test: regex.css_global,
-        use: [
-          { loader: MiniCssExtractPlugin.loader, options: { publicPath: '/' } },
-          'css-loader'
-        ]
-      },
       {
         test: regex.css_no_global,
         use: [
@@ -76,7 +64,16 @@ export default {
           'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
         ]
       },
-      // handle files
+      {
+        test: regex.sass_no_global,
+        use: [
+
+          { loader: MiniCssExtractPlugin.loader, options: { publicPath: '/' } },
+          'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+          { loader: 'sass-loader', options: { sourceMap: true } }
+        ],
+      },
+
       { test: regex.files, loader: 'url-loader' }
     ]
   }
