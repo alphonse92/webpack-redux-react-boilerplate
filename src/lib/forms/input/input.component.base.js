@@ -23,13 +23,15 @@ class InputComponentBase extends React.Component {
   onFormChange = (event) => {
 
   }
-
+  extractValueFromEvent = (event) => event.target.value;
   onChange = (event) => {
-    if (this.props.onChange)
-      this.props.onChange(event);
+    const data = {
+      name: event.target.name
+    };
 
-    const { name, value } = event.target;
-    const data = { name, value }
+    if (this.props.onChange) data.value = this.props.onChange(event);
+    else data.value = this.extractValueFromEvent(event);
+    console.log("publish", data)
     this.props.onChangeObserver.publish(data)
   };
 

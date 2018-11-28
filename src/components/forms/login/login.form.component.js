@@ -27,7 +27,7 @@ class LoginFormComponent extends React.Component {
 
 
     // example of input texts and password
-    const username = InputBoxBuilder("username", { type: 'text' }, FormComponent.Validators.required, this.onChangeObserver);
+    const username = InputBoxBuilder("username", { type: 'text', }, FormComponent.Validators.required, this.onChangeObserver);
     const password = InputBoxBuilder("password", { type: 'password' }, FormComponent.Validators.required, this.onChangeObserver);
     // example of checkbox
     const chk1 = InputBoxBuilder("chk1", { type: 'checkbox' }, FormComponent.Validators.required, this.onChangeObserver);
