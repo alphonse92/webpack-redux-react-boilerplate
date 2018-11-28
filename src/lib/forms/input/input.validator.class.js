@@ -5,6 +5,6 @@ export default class InputValidator {
     validator = typeof validator === "function" ? validator : () => true
     Object.assign(this, { message, validator })
   }
-  isValid = (formData, value) => this.validator(formData, value)
+  isValid = (name,formData, value) => this.validator(name,formData, value)
   getMessage = (inputName, value) => inputName ? `[${inputName}]: ${this.message} got: ${value}` : this.message;
 }

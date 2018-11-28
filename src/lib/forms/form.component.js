@@ -24,6 +24,7 @@ class FormComponent extends React.Component {
         return this.observer.publish(name, data);
       },
     }
+
     return wrapper;
   }
 
@@ -45,12 +46,13 @@ class FormComponent extends React.Component {
   }
   isFormValid = () => {
     const currentState = this.state;
+  
     let errors = [];
     const is_valid = !this.inputs.length ?
       true :
       this.inputs.reduce((out, input) => {
-        input.isValid = typeof input.isValid === 'function' ? input.isValid : () => true;
-        const isInputValid = input.isValid(currentState.form, this.state[input.name]);
+        const isValid = typeof input.isValid === 'function' ? input.isValid : () => true;
+        const isInputValid = isValid(currentState.form);
         if (!isInputValid)
           errors = errors.concat(input.getErrors());
         const is_valid = out && isInputValid

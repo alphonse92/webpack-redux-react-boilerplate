@@ -18,9 +18,13 @@ class LoginFormComponent extends React.Component {
 
   createInputs = () => {
 
-    const InputFormBuilder = FormComponent.InputBuilderHelper.InputFormBuilder;
     // InputBoxBuilder is an helper to create <input ... />
-    const InputBoxBuilder = FormComponent.InputBuilderHelper.InputBoxBuilder;
+    const {
+      InputFormBuilder,
+      InputBoxBuilder,
+      CustomFormElementBuilder
+    } = FormComponent.InputBuilderHelper;
+
 
     // example of input texts and password
     const username = InputBoxBuilder("username", { type: 'text' }, FormComponent.Validators.required, this.onChangeObserver);
@@ -35,6 +39,13 @@ class LoginFormComponent extends React.Component {
     const file = InputBoxBuilder("file", { type: 'file' }, FormComponent.Validators.required, this.onChangeObserver);
     // example of date inputs
     const date = InputBoxBuilder("date", { type: 'date' }, FormComponent.Validators.required, this.onChangeObserver);
+
+    const textArea = CustomFormElementBuilder(WrappedProperties => {
+
+      return (
+        <textarea value="asdasdasd"></textarea>
+      )
+    })
 
     // Add all inputs in the input object
     this.inputs = {

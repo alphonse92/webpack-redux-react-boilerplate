@@ -1,27 +1,37 @@
 import React from 'react';
-import InputComponent from './input.component';
+import Wrapper from './input.component.wrapper';
 import Input from './input.class';
-
-const FormInputBuilder = (ComponentClass = InputComponent, name, InputProps = { type: "text" }, Validators = () => true, onChangeObserver) => {
-  if (!name) throw new Error("name input is required");
-  Validators = Array.isArray(Validators) ? Validators : [Validators];
+const inputDom = "input"
+const FormInputBuilder = (DOM = inputDom, name, InputProps, validators, onChangeObserver) => {
   InputProps.name = name;
-  InputProps.onChangeObserver = onChangeObserver;
-  InputProps.validators = Validators;
+
+  InputProps.onChangeObserver = InputProps.onChangeObserver || onChangeObserver;
+
+  InputProps.validators = InputProps.validators || validators;
+  InputProps.validators = Array.isArray(InputProps.validators) ? InputProps.validators : [InputProps.validators];
+
+  InputProps.DOM = DOM
   const component = (
-    <ComponentClass {...InputProps} />
+    <Wrapper {...InputProps} />
   )
   return new Input(name,
     component,
-    Validators
+    InputProps.validators
   );
 };
 
-const InputBoxBuilder = (name, InputProps = { type: "text" }, Validators = () => true, onChangeObserver) => {
-  return FormInputBuilder(InputComponent, name, InputProps, Validators, onChangeObserver);
+const InputBoxBuilder = (name, InputProps = { type: "text" }, validators = () => true, onChangeObserver) => {
+  InputProps.validators = validators;
+  InputProps.onChangeObserver = onChangeObserver
+  return FormInputBuilder(inputDom, name, InputProps);
 };
+
+const CustomFormElementBuilder = (DomComponentBuilder) => {
+
+}
 
 export {
   FormInputBuilder,
-  InputBoxBuilder
+  InputBoxBuilder,
+  CustomFormElementBuilder
 }
