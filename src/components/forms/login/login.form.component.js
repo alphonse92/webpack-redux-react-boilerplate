@@ -1,6 +1,5 @@
 import React from 'react';
 import FormComponent from '../../../lib/forms/form.component'
-
 class LoginFormComponent extends React.Component {
 
   onChangeObserver = null;
@@ -20,7 +19,6 @@ class LoginFormComponent extends React.Component {
 
     // InputBoxBuilder is an helper to create <input ... />
     const {
-      InputFormBuilder,
       InputBoxBuilder,
       CustomFormElementBuilder
     } = FormComponent.InputBuilderHelper;
@@ -40,11 +38,9 @@ class LoginFormComponent extends React.Component {
     // example of date inputs
     const date = InputBoxBuilder("date", { type: 'date' }, FormComponent.Validators.required, this.onChangeObserver);
 
-    const textArea = CustomFormElementBuilder(WrappedProperties => {
-
-      return (
-        <textarea value="asdasdasd"></textarea>
-      )
+    const textarea = CustomFormElementBuilder("myTextArea", { value: "" }, FormComponent.Validators.required, this.onChangeObserver, (properties) => {
+      console.log("textarea properties", properties)
+      return (<textarea  {...properties}></textarea>)
     })
 
     // Add all inputs in the input object
@@ -57,6 +53,7 @@ class LoginFormComponent extends React.Component {
       radio2,
       file,
       date,
+      textarea
     };
   }
 
@@ -91,6 +88,7 @@ class LoginFormComponent extends React.Component {
         {this.inputs.radio2.getComponent()} radio2<br></br>
         {this.inputs.file.getComponent()}<br></br>
         {this.inputs.date.getComponent()}<br></br>
+        {this.inputs.textarea.getComponent()}<br></br>
         <button>Submit</button>
       </FormComponent>);
 

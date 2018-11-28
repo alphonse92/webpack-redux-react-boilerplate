@@ -1,33 +1,32 @@
 import React from 'react';
-import Wrapper from './input.component.wrapper';
+import { CustomInputComponent } from './input.component.wrapper';
 import Input from './input.class';
-const inputDom = "input"
-const FormInputBuilder = (DOM = inputDom, name, InputProps, validators, onChangeObserver) => {
-  InputProps.name = name;
 
-  InputProps.onChangeObserver = InputProps.onChangeObserver || onChangeObserver;
-
-  InputProps.validators = InputProps.validators || validators;
+const FormInputBuilder = (InputProps) => {
+  InputProps.validators = InputProps.validators ? InputProps.validators : [] //avoid reference error
   InputProps.validators = Array.isArray(InputProps.validators) ? InputProps.validators : [InputProps.validators];
-
-  InputProps.DOM = DOM
-  const component = (
-    <Wrapper {...InputProps} />
-  )
-  return new Input(name,
+  const component = (<CustomInputComponent {...InputProps} />);
+  return new Input(
+    InputProps.name,
     component,
     InputProps.validators
   );
 };
 
-const InputBoxBuilder = (name, InputProps = { type: "text" }, validators = () => true, onChangeObserver) => {
+const InputBoxBuilder = (name, InputProps, validators, onChangeObserver) => {
+  InputProps.name = name;
   InputProps.validators = validators;
   InputProps.onChangeObserver = onChangeObserver
-  return FormInputBuilder(inputDom, name, InputProps);
+  InputProps.ComponentBuilder = (properties) => (<input {...properties} />);
+  return FormInputBuilder(InputProps);
 };
 
-const CustomFormElementBuilder = (DomComponentBuilder) => {
-
+const CustomFormElementBuilder = (name, InputProps, validators, onChangeObserver, ComponentBuilder) => {
+  InputProps.name = name;
+  InputProps.validators = validators;
+  InputProps.onChangeObserver = onChangeObserver;
+  InputProps.ComponentBuilder = ComponentBuilder;
+  return FormInputBuilder(InputProps);
 }
 
 export {
