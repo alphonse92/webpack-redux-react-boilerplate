@@ -1,7 +1,7 @@
+import InputComponentBase from './input.component.base';
 import React from 'react';
-export default class InputComponent extends React.Component {
-  inputProps = {};
-  children = <></>
+
+export default class InputComponent extends InputComponentBase {
   constructor(props) {
     super(props);
     this.state = {}
@@ -31,9 +31,5 @@ export default class InputComponent extends React.Component {
       }, true);
     return isValid;
   }
-
-
-  render = () => {
-    return (<input {...this.inputProps} onChange={this.onChange} />)
-  }
+  render = () => (<input  {...this.inputProps} onChange={this.onChange} />);
 }

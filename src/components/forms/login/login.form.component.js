@@ -17,19 +17,24 @@ class LoginFormComponent extends React.Component {
   }
 
   createInputs = () => {
+
+    const InputFormBuilder = FormComponent.InputBuilderHelper.InputFormBuilder;
+    // InputBoxBuilder is an helper to create <input ... />
+    const InputBoxBuilder = FormComponent.InputBuilderHelper.InputBoxBuilder;
+
     // example of input texts and password
-    const username = FormComponent.InputBuilder("username", { type: 'text' }, FormComponent.Validators.required, this.onChangeObserver);
-    const password = FormComponent.InputBuilder("password", { type: 'password' }, FormComponent.Validators.required, this.onChangeObserver);
+    const username = InputBoxBuilder("username", { type: 'text' }, FormComponent.Validators.required, this.onChangeObserver);
+    const password = InputBoxBuilder("password", { type: 'password' }, FormComponent.Validators.required, this.onChangeObserver);
     // example of checkbox
-    const chk1 = FormComponent.InputBuilder("chk1", { type: 'checkbox' }, FormComponent.Validators.required, this.onChangeObserver);
-    const chk2 = FormComponent.InputBuilder("chk2", { type: 'checkbox' }, FormComponent.Validators.required, this.onChangeObserver);
+    const chk1 = InputBoxBuilder("chk1", { type: 'checkbox' }, FormComponent.Validators.required, this.onChangeObserver);
+    const chk2 = InputBoxBuilder("chk2", { type: 'checkbox' }, FormComponent.Validators.required, this.onChangeObserver);
     // example of input groups, note the validator
-    const radio1 = FormComponent.InputBuilder("radio", { type: 'radio', value: "radio1" }, FormComponent.Validators.requiredByName, this.onChangeObserver);
-    const radio2 = FormComponent.InputBuilder("radio", { type: 'radio', value: "radio2" }, FormComponent.Validators.requiredByName, this.onChangeObserver);
+    const radio1 = InputBoxBuilder("radio", { type: 'radio', value: "radio1" }, FormComponent.Validators.requiredByName, this.onChangeObserver);
+    const radio2 = InputBoxBuilder("radio", { type: 'radio', value: "radio2" }, FormComponent.Validators.requiredByName, this.onChangeObserver);
     // example of file inputs
-    const file = FormComponent.InputBuilder("file", { type: 'file' }, FormComponent.Validators.required, this.onChangeObserver);
+    const file = InputBoxBuilder("file", { type: 'file' }, FormComponent.Validators.required, this.onChangeObserver);
     // example of date inputs
-    const date = FormComponent.InputBuilder("date", { type: 'date' }, FormComponent.Validators.required, this.onChangeObserver);
+    const date = InputBoxBuilder("date", { type: 'date' }, FormComponent.Validators.required, this.onChangeObserver);
 
     // Add all inputs in the input object
     this.inputs = {

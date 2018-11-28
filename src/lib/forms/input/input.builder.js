@@ -2,17 +2,26 @@ import React from 'react';
 import InputComponent from './input.component';
 import Input from './input.class';
 
-export default (name, InputProps = { type: "text" }, Validators = () => true, onChangeObserver) => {
-  if (!name) throw new Exception("name input is required");
+const FormInputBuilder = (ComponentClass = InputComponent, name, InputProps = { type: "text" }, Validators = () => true, onChangeObserver) => {
+  if (!name) throw new Error("name input is required");
   Validators = Array.isArray(Validators) ? Validators : [Validators];
   InputProps.name = name;
   InputProps.onChangeObserver = onChangeObserver;
   InputProps.validators = Validators;
   const component = (
-    <InputComponent {...InputProps}></InputComponent>
+    <ComponentClass {...InputProps} />
   )
   return new Input(name,
     component,
     Validators
   );
 };
+
+const InputBoxBuilder = (name, InputProps = { type: "text" }, Validators = () => true, onChangeObserver) => {
+  return FormInputBuilder(InputComponent, name, InputProps, Validators, onChangeObserver);
+};
+
+export {
+  FormInputBuilder,
+  InputBoxBuilder
+}

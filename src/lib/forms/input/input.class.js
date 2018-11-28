@@ -1,8 +1,7 @@
-import React from 'react';
 export default class Input {
 
   constructor(name, component, validators) { Object.assign(this, { name, component, validators }) }
-  getComponent = (observer) => this.component
+  getComponent = () => this.component
   getValidators = () => this.validators
   getName = () => this.name
   getErrors = () => this.errors;

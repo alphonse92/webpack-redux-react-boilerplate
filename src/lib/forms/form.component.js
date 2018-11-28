@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputBuilder, InputValidators, InputComponent, Input } from './input/'
+import { Builder, InputValidators, InputComponent } from './input/'
 import ReactObserver from 'react-event-observer';
 
 class FormComponent extends React.Component {
@@ -7,7 +7,7 @@ class FormComponent extends React.Component {
    * Static methods
    */
   static Input = InputComponent;
-  static InputBuilder = InputBuilder
+  static InputBuilderHelper = Builder
   static Validators = InputValidators
   static createObserver() {
     const name = Date.now().toString();
