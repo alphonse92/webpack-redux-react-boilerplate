@@ -6,9 +6,10 @@ export default (name, InputProps = { type: "text" }, Validators = () => true, on
   if (!name) throw new Exception("name input is required");
   Validators = Array.isArray(Validators) ? Validators : [Validators];
   InputProps.name = name;
-
+  InputProps.onChangeObserver = onChangeObserver;
+  InputProps.validators = Validators;
   const component = (
-    <InputComponent {...InputProps} onChangeObserver={onChangeObserver} validators={Validators}></InputComponent>
+    <InputComponent {...InputProps}></InputComponent>
   )
   return new Input(name,
     component,

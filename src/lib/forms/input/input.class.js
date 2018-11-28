@@ -6,15 +6,16 @@ export default class Input {
   getValidators = () => this.validators
   getName = () => this.name
   getErrors = () => this.errors;
+  addError = (err) => this.errors.push(err);
   isValid = (formData) => {
-    const name = this.getName();
+    const self = this;
+    const name = self.getName();
     const value = formData[name];
-    this.errors = [];
-    console.log({ formData, name, value })
-    const isValid = this.getValidators()
+    self.errors = [];
+    const isValid = self.getValidators()
       .reduce((isValid, validator) => {
-        const currentValidationStatus = validator.isValid(formData, value)
-        if (!currentValidationStatus) this.errors.push({ value, message: validator.getMessage(this.getName) })
+        const currentValidationStatus = validator.isValid(name, formData, value)
+        if (!currentValidationStatus) self.addError({ message: validator.getMessage(self.getName(), value), value })
         return isValid && currentValidationStatus;
       }, true);
     return isValid;

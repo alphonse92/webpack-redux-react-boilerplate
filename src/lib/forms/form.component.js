@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputBuilder, InputValidator, InputComponent, Input } from './input/'
+import { InputBuilder, InputValidators, InputComponent, Input } from './input/'
 import ReactObserver from 'react-event-observer';
 
 class FormComponent extends React.Component {
@@ -8,9 +8,7 @@ class FormComponent extends React.Component {
    */
   static Input = InputComponent;
   static InputBuilder = InputBuilder
-  static Validators = {
-    required: new InputValidator("This field is required", (formData, value) => !!value)
-  }
+  static Validators = InputValidators
   static createObserver() {
     const name = Date.now().toString();
     const observer = ReactObserver();
@@ -47,7 +45,7 @@ class FormComponent extends React.Component {
   }
   isFormValid = () => {
     const currentState = this.state;
-    const errors = [];
+    let errors = [];
     const is_valid = !this.inputs.length ?
       true :
       this.inputs.reduce((out, input) => {
@@ -75,12 +73,11 @@ class FormComponent extends React.Component {
 
   handleSubmit = (event) => {
     if (this.props.preventDefault) event.preventDefault();
-
     const submitEvent = this.props.onSubmit
     const isFormValid = this.isFormValid;
     this.setState((previousState, currentProps) => {
       const newState = { ...previousState };
-      const validation = isFormValid(newState).is_valid;
+      const validation = isFormValid(newState);
       newState.is_valid = validation.is_valid;
       submitEvent(Object.assign(newState, { errors: validation.errors }))
     })
