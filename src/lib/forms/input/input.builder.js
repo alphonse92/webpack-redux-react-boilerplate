@@ -1,6 +1,6 @@
 import React from 'react';
-import InputComponent from './input.component'
-import Input from './input.class'
+import InputComponent from './input.component';
+import Input from './input.class';
 
 export default (name, InputProps = { type: "text" }, Validators = () => true, onChangeObserver) => {
   if (!name) throw new Exception("name input is required");

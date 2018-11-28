@@ -1,6 +1,6 @@
 import React from 'react';
 export default class InputComponent extends React.Component {
-  inputProps = {}
+  inputProps = {};
   children = <></>
   constructor(props) {
     super(props);
