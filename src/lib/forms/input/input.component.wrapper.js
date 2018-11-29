@@ -2,19 +2,19 @@ import InputComponentBase from './input.component.base';
 import React from 'react';
 
 class CustomInputComponent extends InputComponentBase {
+
   constructor(props) {
     super(props);
-
     // remove control attributes from input properties
-    delete this.inputProps.children;
-    delete this.inputProps.onChangeObserver;
-    delete this.inputProps.validators;
-    delete this.inputProps.ComponentBuilder;
+    delete this.state.children;
+    delete this.state.onChangeObserver;
+    delete this.state.validators;
+    delete this.state.ComponentBuilder;
     //Create the DOM
-    this.DOM = this.props.ComponentBuilder(this.inputProps)
+    this.state.onChange = this.onChange;
+    
   }
-  //render the dom
-  render = () => <React.Fragment>{this.DOM}</React.Fragment>
+
 }
 
 
@@ -24,11 +24,11 @@ class CustomInputComponent extends InputComponentBase {
 class InputComponent extends InputComponentBase {
   constructor(props) {
     super(props);
-    delete this.inputProps.children;
-    delete this.inputProps.DOM;
-    delete this.inputProps.onChangeObserver;
+    delete this.state.children;
+    delete this.state.DOM;
+    delete this.state.onChangeObserver;
   }
-  render = () => React.createElement(this.props.DOM, this.inputProps, null);
+  render = () => React.createElement(this.props.DOM, this.state, null);
 }
 
 

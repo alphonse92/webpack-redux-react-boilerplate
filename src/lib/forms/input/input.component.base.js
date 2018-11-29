@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 class InputComponentBase extends React.Component {
-  inputProps = {};
+
   children = React.Fragment;
   constructor(props) {
     super(props);
@@ -9,24 +9,27 @@ class InputComponentBase extends React.Component {
     if (!this.props.name) throw new Error("name is required");
     if (!this.props.onChangeObserver) throw new Error("onChangeObserver is required");
     if (!this.props.ComponentBuilder) throw new Error("ComponentBuilder is required");
-    this.state = this.props.initState || {};
-    this.inputProps = { ...props, onChange: this.onChange };
+
+    this.state = { ...props, onChange: this.onChange };
   }
 
   // subscribeToFormChanges = () => this.props.onChangeObserver.subscribe(this.onFormChange);
   onFormChange = (event) => {
 
   }
+
   extractValueFromEvent = (event) => event.target.value;
+  publishDataToObserver = (value) => {
+    const name = this.state.name;
+    const data = { name, value };
+    this.props.onChangeObserver.publish(data)
+  }
   onChange = (event) => {
-    const self = this
-    const data = { name: event.target.name };
-    // if user set a onChange function, then wrap it, execute and store the returned value
-    if (self.props.onChange) data.value = self.props.onChange(event);
-    // else extract the data from event
-    else data.value = self.extractValueFromEvent(event);
-    // send data to observer
-    self.props.onChangeObserver.publish(data)
+    if (this.props.onChange) {
+      event.persist()
+      this.props.onChange.bind(this)(event, this.publishDataToObserver)
+    }
+    return this.props.onChangeObserver.publish({ name: this.props.name, value: this.extractValueFromEvent(event) });
   };
 
   isValid = (formData) => {
@@ -41,13 +44,15 @@ class InputComponentBase extends React.Component {
     return isValid;
   }
 
-  render = () => <React.Fragment></React.Fragment>;
+  render = () => {
+    const DOM = this.props.ComponentBuilder(this.state)
+    return (<React.Fragment>{DOM}</React.Fragment>)
+  }
 }
 InputComponentBase.propTypes = {
   onChangeObserver: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
   ComponentBuilder: PropTypes.func,
-  initState: PropTypes.object
 }
 export default InputComponentBase;

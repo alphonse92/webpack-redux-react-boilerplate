@@ -38,10 +38,26 @@ class LoginFormComponent extends React.Component {
     // example of date inputs
     const date = InputBoxBuilder("date", { type: 'date' }, FormComponent.Validators.required, this.onChangeObserver);
 
-    const textarea = CustomFormElementBuilder("myTextArea", { value: "" }, FormComponent.Validators.required, this.onChangeObserver, (properties) => {
-      console.log("textarea properties", properties)
-      return (<textarea  {...properties}></textarea>)
-    })
+    const textarea = CustomFormElementBuilder("myTextArea",
+      {
+        value: "",
+        // on change must not be a arrow function, in order to keep the this context
+        onChange: function (event, next) {
+          /**
+           * This is related to the component class instance.
+           */
+          this.setState((previousState, currentProps) => {
+            const value = event.target.value;
+            const newState = { ...previousState }
+            newState.value = value;
+            next(value);
+            return newState;
+          })
+        }
+      },
+      FormComponent.Validators.required,
+      this.onChangeObserver,
+      (state) => (<textarea  {...state}></textarea>));
 
     // Add all inputs in the input object
     this.inputs = {
